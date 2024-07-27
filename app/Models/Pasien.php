@@ -19,6 +19,6 @@ class Pasien extends Authenticatable
 
     public function transaksi()
     {
-    	return $this->hasMany(Transaksi::class, 'hewan_id');
+    	return $this->hasMany(Transaksi::class, 'pasien_id');
     }
 }

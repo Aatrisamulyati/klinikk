@@ -32,9 +32,9 @@
                         @foreach ($booking as $data)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->pasiens ? $data->pasiens->nama : 'N/A' }}</td>
-                                    <td>{{ $data->dokters ? $data->dokters->nama : 'N/A' }}</td>
-                                    <td>{{ $data->services ? $data->services->nama : 'N/A' }}</td>
+                                    <td>{{ $data->pasien-> name }}</td>
+                                    <td>{{ $data->dokter -> nama }}</td>
+                                    <td>{{ $data->service -> nama }}</td>
                                     <td>{{ $data->tanggal }}</td>
                                     <td>{{ $data->jam }}</td>
                                 <td>

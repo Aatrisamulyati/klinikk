@@ -107,13 +107,14 @@ class DashboardPasienController extends Controller
     {
         // Validasi data yang dikirim dari formulir
         $validated = $request->validate([
-            'name' => 'required',
-            'foto_profile' => 'nullable', // Sesuaikan dengan kebutuhan Anda
-            'tgl_lahir' => 'nullable|date',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'phone' => 'nullable|numeric',
+            'nama' => 'required',
+            'email' => 'required|email|unique:pasiens',
+            'foto' => 'nullable|image',
+            'ttl' => 'nullable|date',
+            'telepon' => 'nullable|numeric',
+            'password' => 'required|min:8|confirmed', 
             'alamat' => 'nullable|string',
-            'password' => 'nullable|min:8', 
+            'spesialis' => 'nullable|string'
         ]);
 
         // Handle file upload (jika ada foto profil)
