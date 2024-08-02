@@ -18,6 +18,7 @@ class PasienRiwayatController extends Controller
     {
         $bookings = Booking::where('pasien_id', Auth::id())->orderByDesc('created_at')->get();
         return view('pasien.riwayat.index', compact('bookings'));
+        // dd($bookings);
     }
 
     /**
@@ -49,8 +50,8 @@ class PasienRiwayatController extends Controller
      */
     public function show($id)
     {
-        $booking = Booking::findOrFail($id);
-        return view('pasien.riwayat.detail', compact('booking'));
+        $bookings = Booking::findOrFail($id);
+        return view('pasien.riwayat.detail', compact('bookings'));
     }
 
     /**
@@ -97,9 +98,9 @@ class PasienRiwayatController extends Controller
         $timeDifference = round(($currentTime - $bookingTime) / 60);
 
         // Cek apakah booking dapat dibatalkan
-        if ($booking->status != 'Selesai' && $timeDifference < 60) {
-            // Update status booking menjadi 'Dibatalkan'
-            $booking->status = 'Dibatalkan';
+        if ($booking->status != 'Selesai' && $booking->status != 'Batal' && $timeDifference <= 15) {
+            // Update status booking menjadi 'Batal'
+            $booking->status = 'Batal';
             $booking->save();
 
             // Redirect dengan pesan sukses
@@ -107,9 +108,13 @@ class PasienRiwayatController extends Controller
         } elseif ($booking->status == 'Selesai') {
             // Redirect dengan pesan error jika booking sudah selesai
             return redirect()->route('my-booking.index')->with('error', 'Booking sudah selesai dan tidak dapat dibatalkan.');
+        } elseif ($booking->status == 'Batal') {
+            // Redirect dengan pesan error jika booking sudah dibatalkan
+            return redirect()->route('my-booking.index')->with('error', 'Booking sudah dibatalkan.');
         } else {
             // Redirect dengan pesan error jika booking sudah lewat 15 menit
             return redirect()->route('my-booking.index')->with('error', 'Booking sudah lewat batas waktu untuk pembatalan.');
         }
     }
+
 }

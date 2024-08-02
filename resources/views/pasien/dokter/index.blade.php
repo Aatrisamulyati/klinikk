@@ -1,5 +1,7 @@
 @extends('pasien.layouts.main')
 
+@section('menuDokter', 'active')
+
 <section id="doctors" class="doctors">
     <div class="container">
         <div class="section-title">

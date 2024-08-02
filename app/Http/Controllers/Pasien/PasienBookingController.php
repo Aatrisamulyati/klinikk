@@ -62,7 +62,7 @@ class PasienBookingController extends Controller
             'dokter_id' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
-            'status' => 'required'
+            'status' => 'nullable'
         ]);
         
         Booking::create($validated);

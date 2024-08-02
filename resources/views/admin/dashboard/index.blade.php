@@ -188,5 +188,8 @@
         </div>
       </div>
     </div>
+    @if(auth()->check() && auth()->user()->level === 'Pemilik')
+      @include('pemilik.cetak.index')
+    @endif
   </div>
 @endsection

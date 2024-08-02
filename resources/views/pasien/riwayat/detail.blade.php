@@ -20,16 +20,24 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <th scope="row text-left">Nama</th>
+                                    <td>{{ $bookings->pasien->nama }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="row text-left">Service</th>
-                                    <td>{{ $bookings->services->nama_service }}</td>
+                                    <td>{{ $bookings->service->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row text-left">Product</th>
+                                    <td>{{ $bookings->product->nama ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row text-left">Harga</th>
-                                    <td>Rp {{number_format($bookings->services->harga, 0, ',', '.') }}</td>
+                                    <td>Rp {{ number_format($bookings->service->harga + ($bookings->product->harga ?? 0)) }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row text-left">Dokter</th>
-                                    <td>{{ $bookings->dokter->name }}</td>
+                                    <td>{{ $bookings->dokter->nama }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row text-left">Tanggal</th>
@@ -40,16 +48,28 @@
                                     <td>{{ $bookings->jam }}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="row text-left">Foto</th>
+                                    <td>
+                                        @if ($bookings->gambar)
+                                            <img src="{{ asset('images/booking/' . $bookings->gambar) }}" alt="Booking Image" class="img-fluid table-img rounded" style="width: 60px; height: 60px;">
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row text-left">Keterangan</th>
+                                    <td>{{ $bookings->keterangan }}</td>
+                                </tr>
+                                <tr>
                                     <th scope="row text-left">Status</th>
                                     <td>
                                         <span class="badge 
-                                                    @if($bookings->status == 'Selesai')
-                                                        badge-warning
-                                                    @elseif($bookings->status == 'Dibatalkan')
-                                                        badge-danger
-                                                    @else
-                                                        badge-success
-                                                    @endif">
+                                            @if($bookings->status == 'Selesai')
+                                                badge-warning
+                                            @elseif($bookings->status == 'Booking')
+                                                badge-warning
+                                            @else
+                                                badge-danger
+                                            @endif">
                                             {{ $bookings->status }}
                                         </span>
                                     </td>
@@ -61,10 +81,21 @@
                                 class="d-inline">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger my-2"
+                                {{-- <button type="submit" class="btn btn-danger my-2"
                                     onclick="return confirm('Anda yakin cancel booking ini?')" @if($bookings->status ==
-                                    'Selesai' || $bookings->status == 'Dibatalkan') disabled @endif>
-                                    <i class="fas fa-trash">Cancel</i>
+                                    'Booking' || $bookings->status == 'Batal') disabled @endif>
+                                    Cancel
+                                </button> --}}
+                                @php
+                                    $currentTime = time();
+                                    $bookingTime = strtotime($bookings->created_at);
+                                    $timeDifference = round(($currentTime - $bookingTime) / 60); // Hitung selisih waktu dalam menit
+                                @endphp
+
+                                <button type="submit" class="btn btn-danger my-2"
+                                        onclick="return confirm('Anda yakin cancel booking ini?')" 
+                                        @if($bookings->status == 'Selesai' || $bookings->status == 'Batal' || $timeDifference > 15) disabled @endif>
+                                    Cancel
                                 </button>
                             </form>
                             <a href="{{ route('booking.index') }}" class="btn btn-primary">Order More</a>

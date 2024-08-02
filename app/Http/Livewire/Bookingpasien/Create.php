@@ -32,6 +32,85 @@ class Create extends Component
         ]);
     }
 
+//     public function getAvailableSlots()
+//     {
+//         // Inisialisasi array untuk menyimpan jam
+//         $allSlots = array();
+
+//         // Waktu awal
+//         $startTime = strtotime('08:00:00');
+
+//         // Waktu akhir
+//         $endTime = strtotime('21:00:00');
+
+//         // Loop untuk menambahkan jam ke dalam array
+//         for ($i = $startTime; $i <= $endTime; $i += 7200) { // 3600 detik = 1 jam
+//             $allSlots[] = date('H:i:s', $i);
+//         }
+
+//         // Jika tidak ada tanggal yang dipilih, kembalikan semua slot
+//         if (empty($this->selectedTanggal)) {
+//             return $allSlots;
+//         }
+
+//         // Ambil slot yang sudah dibooking pada tanggal yang dipilih di langkah 3
+//         $bookedSlots = $this->getBookedSlots();
+
+//         // Ambil slot yang belum dibooking
+//         $availableSlots = [];
+
+//         foreach ($allSlots as $data) {
+//             $isSimilar = false;
+
+//             foreach ($bookedSlots as $dataSlot) {
+//                 if ($data == $dataSlot) {
+//                     $isSimilar = true;
+//                     break;
+//                 } else {
+//                     $isSimilar = false;
+//                 }
+//             }
+
+//             if (!$isSimilar) {
+
+//                 if ($this->selectedTanggal == now()->toDateString()) {
+
+//                     if ($data >= date('H:00:00')) {
+//                         $availableSlots[] = $data;
+//                     }
+//                 } else {
+//                     $availableSlots[] = $data;
+//                 }
+//             }
+//         }
+
+//         return $availableSlots;
+//     }
+
+
+//     private function getBookedSlots()
+// {
+//     // Ambil ID pengguna yang sedang login
+//     $authUserId = Auth::id(); // Mendapatkan ID pengguna secara langsung
+
+//     // Ambil slot yang sudah dibooking pada tanggal yang dipilih di langkah 3
+//     $bookedSlots = Booking::where('tanggal', $this->selectedTanggal)
+//         ->where('dokter_id', $this->selectedDokter) // Pastikan $this->selectedDokter adalah ID dokter yang dipilih
+//         ->where('status', '!=', 'Batal') // Perhatikan bahwa 'Dibatalkan' mungkin tidak ada di enum status, pastikan ini konsisten
+//         ->where('pasien_id', '!=', $authUserId) // Menggunakan ID pengguna untuk memastikan slot tidak diambil oleh pengguna yang sama
+//         ->pluck('jam')
+//         ->toArray();
+
+//     // Ambil slot yang sudah dibooking untuk tanggal-tanggal selanjutnya dari hari ini
+//     $futureBookedSlots = Booking::where('tanggal', '>', now()->toDateString())
+//         ->where('status', '!=', 'Batal') // Pastikan 'Dibatalkan' konsisten dengan enum status
+//         ->pluck('jam')
+//         ->toArray();
+
+//     // Menggabungkan slot yang sudah dibooking pada tanggal yang dipilih dan slot untuk tanggal-tanggal selanjutnya
+//     return array_merge($bookedSlots, $futureBookedSlots);
+// }
+
     public function getAvailableSlots()
     {
         // Inisialisasi array untuk menyimpan jam
@@ -43,9 +122,8 @@ class Create extends Component
         // Waktu akhir
         $endTime = strtotime('21:00:00');
 
-
         // Loop untuk menambahkan jam ke dalam array
-        for ($i = $startTime; $i <= $endTime; $i += 5400) { // 3600 detik = 1 jam
+        for ($i = $startTime; $i < $endTime; $i += 3600) { // 3600 detik = 1 jam
             $allSlots[] = date('H:i:s', $i);
         }
 
@@ -67,16 +145,14 @@ class Create extends Component
                 if ($data == $dataSlot) {
                     $isSimilar = true;
                     break;
-                } else {
-                    $isSimilar = false;
                 }
             }
 
             if (!$isSimilar) {
-
+                // Cek apakah tanggal yang dipilih adalah hari ini
                 if ($this->selectedTanggal == now()->toDateString()) {
-
-                    if ($data >= date('H:00:00')) {
+                    // Cek apakah slot waktu lebih besar atau sama dengan waktu sekarang
+                    if ($data >= date('H:i:s')) {
                         $availableSlots[] = $data;
                     }
                 } else {
@@ -88,29 +164,29 @@ class Create extends Component
         return $availableSlots;
     }
 
-
     private function getBookedSlots()
-{
-    // Ambil ID pengguna yang sedang login
-    $authUserId = Auth::id(); // Mendapatkan ID pengguna secara langsung
+    {
+        // Ambil ID pengguna yang sedang login
+        $authUserId = Auth::id(); // Mendapatkan ID pengguna secara langsung
 
-    // Ambil slot yang sudah dibooking pada tanggal yang dipilih di langkah 3
-    $bookedSlots = Booking::where('tanggal', $this->selectedTanggal)
-        ->where('dokter_id', $this->selectedDokter) // Pastikan $this->selectedDokter adalah ID dokter yang dipilih
-        ->where('status', '!=', 'Dibatalkan') // Perhatikan bahwa 'Dibatalkan' mungkin tidak ada di enum status, pastikan ini konsisten
-        ->where('pasien_id', '!=', $authUserId) // Menggunakan ID pengguna untuk memastikan slot tidak diambil oleh pengguna yang sama
-        ->pluck('jam')
-        ->toArray();
+        // Ambil slot yang sudah dibooking pada tanggal yang dipilih di langkah 3
+        $bookedSlots = Booking::where('tanggal', $this->selectedTanggal)
+            ->where('dokter_id', $this->selectedDokter) // Pastikan $this->selectedDokter adalah ID dokter yang dipilih
+            ->where('status', '!=', 'Batal') // Perhatikan bahwa 'Dibatalkan' mungkin tidak ada di enum status, pastikan ini konsisten
+            ->where('pasien_id', '!=', $authUserId) // Menggunakan ID pengguna untuk memastikan slot tidak diambil oleh pengguna yang sama
+            ->pluck('jam')
+            ->toArray();
 
-    // Ambil slot yang sudah dibooking untuk tanggal-tanggal selanjutnya dari hari ini
-    $futureBookedSlots = Booking::where('tanggal', '>', now()->toDateString())
-        ->where('status', '!=', 'Dibatalkan') // Pastikan 'Dibatalkan' konsisten dengan enum status
-        ->pluck('jam')
-        ->toArray();
+        // Ambil slot yang sudah dibooking untuk tanggal-tanggal selanjutnya dari hari ini
+        $futureBookedSlots = Booking::where('tanggal', '>', now()->toDateString())
+            ->where('status', '!=', 'Batal') // Pastikan 'Dibatalkan' konsisten dengan enum status
+            ->pluck('jam')
+            ->toArray();
 
-    // Menggabungkan slot yang sudah dibooking pada tanggal yang dipilih dan slot untuk tanggal-tanggal selanjutnya
-    return array_merge($bookedSlots, $futureBookedSlots);
-}
+        // Menggabungkan slot yang sudah dibooking pada tanggal yang dipilih dan slot untuk tanggal-tanggal selanjutnya
+        return array_merge($bookedSlots, $futureBookedSlots);
+    }
+
 
 
     public function selectService($serviceId)
@@ -177,13 +253,7 @@ class Create extends Component
 
     public function submitForm(Request $request)
     {
-        $validatedData = $request->validate([
-            'service' => 'required|integer',
-            'dokter' => 'required|integer',
-            'selectedTanggal' => 'required|date',
-            'selectedJam' => 'required|string',
-            'status' => ['required', Rule::in(['belum dikonfirmasi', 'proses', 'selesai', 'dll'])],
-        ]);
+        
         $pasien = Auth::user();
 
         Booking::create([

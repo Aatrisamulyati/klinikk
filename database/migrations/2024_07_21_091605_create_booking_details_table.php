@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('keterangan');
             $table->string('total');
             $table->timestamps();
+
+            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

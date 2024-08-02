@@ -13,14 +13,18 @@ class Product extends Model
     
     protected $guarded=[];
 
-    public function masuk()
-    {
-        return $this->hasMany(Masuk::class);
+    public function booking(){
+        return $this-> belongsTo(Booking::class);
+    }
+    
+    public function detailbook(){
+        return $this-> belongsTo(DetailBoook::class);
     }
 
-    public function keluar()
+    public function inventories()
     {
-        return $this->hasMany(Keluar::class);
+        return $this->hasMany(Inventory::class);
     }
+
     
 }

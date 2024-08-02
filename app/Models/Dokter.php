@@ -15,7 +15,7 @@ class Dokter extends Model
     public function booking(){
         return $this-> hasMany(Booking::class);
     }
-    
+
     public function transaksi()
     {
         return $this->belongsTo(Booking::class, 'dokter_id');

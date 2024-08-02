@@ -15,8 +15,8 @@
           <a class="nav-link @yield('menuMyBooking')" href="{{route('my-booking.index')}}">My Booking</a>
         </li>
       
-        <li><a class="nav-link scrollto" href="/dokter/index">Doctors</a></li>
-        <li><a class="nav-link scrollto" href="/dokter/index">Services</a></li>
+        <li><a class="nav-link @yield('menuDokter')" href="{{route('dokter.index')}}">Doctors</a></li>
+        <li><a class="nav-link scrollto" href="/service/index">Services</a></li>
         
         {{-- <li class="dropdown">
           <a href="/layanan/index"><span>Services</span> <i class="bi bi-chevron-down"></i></a>

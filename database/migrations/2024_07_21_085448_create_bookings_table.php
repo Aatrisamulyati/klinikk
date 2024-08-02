@@ -18,10 +18,15 @@ return new class extends Migration
             $table->unsignedBigInteger('pasien_id');
             $table->unsignedBigInteger('dokter_id');
             $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->string('tanggal');
             $table->string('jam');
-            $table->string('status');
+            $table->enum('status', ['Booking', 'Selesai', 'Batal'])->default('Booking')->change();
+            $table->string('gambar')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->decimal('total', 10, 2)->nullable();
             $table->timestamps();
+            
         });
     }
 

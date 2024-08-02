@@ -75,6 +75,19 @@
                         </div>
                         @enderror
                     </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="alamat" class="form-label">Alamat:</label>
+                            <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                                name="alamat">{{ old('alamat', $pasien->alamat) }}</textarea>
+                            @error('alamat')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card-footer">

@@ -2,36 +2,22 @@
 
 namespace App\Http\Controllers\Pemilik;
 
-use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PemilikLaporanController extends Controller
+class PemilikProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function cetakHarian(Request $request)
+    public function index()
     {
-        $request->validate([
-            'tanggal_awal' => 'required|date',
-            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+        return view('pemilik.product.index', [
+            'products' => Product::latest()->get(),
         ]);
-        
-        // dd($request);
-        $tanggal_awal = date('Y-m-d', strtotime($request->input('tanggal_awal')));
-        $tanggal_akhir = date('Y-m-d', strtotime($request->input('tanggal_akhir')));
-
-        $bookings = Booking::whereBetween('created_at', [$tanggal_awal . ' 00:00:00', $tanggal_akhir . ' 23:59:59'])
-            ->where('status', 'Selesai')
-            ->latest()
-            ->get();
-
-        $total_pemasukan = $bookings->sum('service.harga');
-        
-        // dd($bookings);
-        return view('pemilik.laporan.harian', compact('tanggal_awal', 'tanggal_akhir', 'bookings', 'total_pemasukan'));
     }
 
     /**

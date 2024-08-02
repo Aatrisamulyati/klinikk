@@ -87,8 +87,9 @@
                     <div class="mb-3">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
-                            <option value="booking">Booking</option>
-                            <option value="selesai">Selesai</option>
+                            <option value="Booking">Booking</option>
+                            <option value="Selesai">Selesai</option>
+                            
                         </select>
                         @error('status')
                         <div class="invalid-feedback">

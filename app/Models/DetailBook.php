@@ -11,6 +11,16 @@ class DetailBook extends Model
     protected $guarded=[];
     protected $table = 'booking_details';
     
+    public function pasien()
+    {
+        return $this->belongsTo(User::class, 'pasien_id');
+    }
+
+    public function dokter()
+    {
+        return $this->belongsTo(User::class, 'dokter_id');
+    }
+    
     public function booking(){
         return $this-> belongsTo(Booking::class);
     }

@@ -26,6 +26,7 @@
                         <img src="../backend/img/avatars/6.jpg" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
+                
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <a class="dropdown-item" href="#">
@@ -36,6 +37,7 @@
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </div>
+                                
                                 <div class="flex-grow-1">
                                     <span class="fw-semibold d-block">{{ Auth::user()->nama }}</span>
                                     <small class="text-muted">{{ Auth::user()->level }}</small>
@@ -46,13 +48,9 @@
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
+                    
                     <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
+                        
                         <form method="POST" action="/logout">
                             @csrf
 

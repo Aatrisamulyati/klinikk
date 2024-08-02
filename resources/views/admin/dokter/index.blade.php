@@ -24,6 +24,7 @@
                             <th>Foto</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                                 <td><img src="{{ asset('images/dokter/' . $data->foto) }}" style="height: 70px; width: 70px;"></td>
                                 <td>{{ $data->email }}</td>
                                 <td>{{ $data->telepon }}</td>
+                                <td>{{ $data->alamat }}</td>
                     
                                 <td>
                                     <a href="{{ route('data-dokter.edit', $data->id) }}" class="btn btn-sm btn-warning" role="button">Edit</a>

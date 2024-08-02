@@ -1848,3 +1848,31 @@ section {
   color: #fff;
   text-decoration: none;
 }
+
+.badge {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 0.875em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.375rem;
+  color: #fff;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: black; /* Atur warna teks sesuai kebutuhan */
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: black; /* Atur warna teks sesuai kebutuhan */
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: black; /* Atur warna teks sesuai kebutuhan */
+}

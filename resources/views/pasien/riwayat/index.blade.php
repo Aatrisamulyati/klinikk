@@ -4,14 +4,17 @@
 
 <section class="hero-section">
     <div class="container">
-        <div class="row mb-3">
-
-            <h1 class="text-center text-white">My Booking</h1>
+        <div class="section-title">
+            <br><br><br><br>
+            <h2>My Booking</h2>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="row justify-content-center">
                     @forelse ($bookings as $booking)
+                    {{-- @php
+                        dd($booking);
+                    @endphp --}}
                     <div class="col-md-4 mb-4">
                         <div class="card border-2">
                             <div class="card-body text-center ">
@@ -25,46 +28,50 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <th scope="row text-left">Nama</th>
+                                            <td>:</td>
+                                            <td>{{ $booking->pasien->nama }}</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row text-left">Service</th>
                                             <td>:</td>
-                                            <td>{{ $bookings->service->nama_service }}</td>
+                                            <td>{{ $booking->service->nama }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row text-left">Dokter</th>
                                             <td>:</td>
-                                            <td>{{ $bookings->dokter->name }}</td>
+                                            <td>{{ $booking->dokter->nama }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row text-left">Tanggal</th>
                                             <td>:</td>
-                                            <td>{{ $bookings->tanggal }}</td>
+                                            <td>{{ $booking->tanggal }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row text-left">Jam</th>
                                             <td>:</td>
-                                            <td>{{ $bookings->jam }}</td>
+                                            <td>{{ $booking->jam }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row text-left">Status</th>
                                             <td>:</td>
                                             <td>
                                                 <span class="badge 
-                                                    @if($bookings->status == 'Selesai')
+                                                    @if($booking->status == 'Booking')
                                                         badge-warning
-                                                    @elseif($bookings->status == 'Dibatalkan')
-                                                        badge-danger
-                                                    @else
+                                                    @elseif($booking->status == 'Selesai')    
                                                         badge-success
+                                                    @else
+                                                        badge-danger
                                                     @endif">
-                                                    {{ $bookings->status }}
+                                                    {{ $booking->status }}
                                                 </span>
-
                                             </td>
                                         </tr>
                                         <tr>
                                             <th colspan="3">
                                                 <div class="center" style="text-align:center;">
-                                                    <a href="{{route('my-booking.show', $bookings->id)}}">
+                                                    <a href="{{route('my-booking.show', $booking->id)}}">
                                                         Lihat Detail
                                                     </a>
                                                 </div>

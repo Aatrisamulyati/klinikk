@@ -77,6 +77,8 @@
                         </option>
                         <option value="selesai" {{ $booking->status == 'selesai' ? 'selected' : '' }}>Selesai
                         </option>
+                        <option value="batal" {{ $booking->status == 'batal' ? 'selected' : '' }}>Batal
+                        </option>
                     </select>
                     @error('status')
                     <div class="invalid-feedback">

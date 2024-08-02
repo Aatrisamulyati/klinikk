@@ -38,36 +38,35 @@ class DashboardDokterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email|unique',
-            'foto' => 'nullable|image',
-            'ttl' => 'nullable|date',
-            'telepon' => 'nullable|numeric',
-            'password' => 'required|min:8|confirmed', 
-            'alamat' => 'nullable|string',
-            'spesialis' => 'nullable|string'
-        ]);
+{
+    $validated = $request->validate([
+        'nama' => 'required',
+        'email' => 'required|email|unique:users,email', // Specify the table and column
+        'foto' => 'nullable|image',
+        'ttl' => 'nullable|date',
+        'telepon' => 'nullable|numeric',
+        'password' => 'required|min:8|confirmed', 
+        'alamat' => 'nullable|string',
+        'spesialis' => 'nullable|string'
+    ]);
 
-        $pasienImage = null;
+    $pasienImage = null;
 
-        if ($image = $request->file('foto')) {
-           
-            $destinationPath = 'images/dokter/';
-            $pasienImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $pasienImage);
-        }
-    
-        $validated['foto'] = $pasienImage;
-        $validated['password'] = bcrypt($request->input('password'));
-        $validated['level'] = 'Dokter';
-
-        User::create($validated);
-       
-        return redirect('data-dokter')->with('success', 'Data berhasil ditambahkan!');
-
+    if ($image = $request->file('foto')) {
+        $destinationPath = 'images/dokter/';
+        $pasienImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        $image->move($destinationPath, $pasienImage);
     }
+
+    $validated['foto'] = $pasienImage;
+    $validated['password'] = bcrypt($request->input('password'));
+    $validated['level'] = 'Dokter';
+
+    User::create($validated);
+   
+    return redirect('data-dokter')->with('success', 'Data berhasil ditambahkan!');
+}
+
 
     /**
      * Display the specified resource.

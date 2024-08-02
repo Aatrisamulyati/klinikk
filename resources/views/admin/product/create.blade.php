@@ -8,7 +8,7 @@
         <form action="{{ route('data-product.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card">
-                <div class="card-header">
+                <div class="btn btn-primary mb-3">
                     Tambah Data Product
                 </div>
                 <div class="card-body">
